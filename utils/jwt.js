@@ -6,10 +6,16 @@ export function signJWT(payload) {
   return jwt.sign(payload, SECRET, { expiresIn: "1h" });
 }
 
-export function verifyJWT(token) {
+import { jwtVerify } from 'jose';
+
+const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+
+export async function verifyJWT(token) {
   try {
-    return jwt.verify(token, SECRET);
+    const { payload } = await jwtVerify(token, secret);
+    return payload;
   } catch (err) {
+    console.error("❌ JWT verification failed (JOSE):", err.message);
     return null;
   }
 }

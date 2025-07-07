@@ -13,7 +13,7 @@ export async function POST(req){
 
 
      const token = req.headers.get("authorization")?.split(" ")[1];
-  const admin = verifyJWT(token);
+  const admin =await verifyJWT(token);
   if (!admin || admin.role !== "admin") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }

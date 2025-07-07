@@ -7,7 +7,7 @@ import { NextResponse } from "next/server";
 export async function GET(req){
     await dbConnect();
     const token = req.headers.get("authorization")?.split(" ")[1];
-    const user= verifyJWT(token);
+    const user=await verifyJWT(token);
 
     if(!user){
         return NextResponse.json({error:"unauthorized"},{status:404});

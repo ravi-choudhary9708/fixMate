@@ -1,8 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Plus, Ticket, User, LogOut } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function UserDashboard() {
+  const router= useRouter();
   const [tickets, setTickets] = useState([]);
   const [form, setForm] = useState({
     title: "",
@@ -122,6 +124,10 @@ export default function UserDashboard() {
     }
   };
 
+  const handleClick=()=>{
+ router.push("/")
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* Header */}
@@ -137,7 +143,7 @@ export default function UserDashboard() {
                 <p className="text-sm text-gray-600">Manage your support tickets</p>
               </div>
             </div>
-            <button className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors">
+            <button onClick={handleClick} className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors">
               <LogOut className="w-5 h-5" />
               <span>Logout</span>
             </button>

@@ -36,7 +36,8 @@ export async function middleware(req) {
 
   let user;
   try {
-    user = verifyJWT(token);
+    user = await verifyJWT(token);
+console.log("user bhai:", user);
   } catch (err) {
     console.error("Invalid token in middleware");
     return NextResponse.redirect(new URL("/login", req.url));

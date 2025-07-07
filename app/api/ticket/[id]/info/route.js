@@ -17,7 +17,7 @@ export async function GET(req, context) {
   console.log("ticket id:",id)
         
      const token = req.headers.get("authorization")?.split(" ")[1];
-  const user = verifyJWT(token);
+  const user =await verifyJWT(token);
 
   console.log("user at infp",user)
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

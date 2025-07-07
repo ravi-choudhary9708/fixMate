@@ -10,7 +10,7 @@ export async function PATCH(req,{params}){
     await dbConnect();
     const token = req.headers.get("authorization")?.split(" ")[1];
 
-    const user= verifyJWT(token);
+    const user= await verifyJWT(token);
     if(!user) return NextResponse.json({error:"unauthorized"},{status:404});
 
     const {status}= await req.json();

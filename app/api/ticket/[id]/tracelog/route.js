@@ -12,7 +12,7 @@ export async function GET(req, context) {
   const { id } = await params;
       
      const token = req.headers.get("authorization")?.split(" ")[1];
-  const user = verifyJWT(token);
+  const user =await verifyJWT(token);
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   
 
