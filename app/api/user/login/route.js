@@ -25,6 +25,9 @@ export async function POST(req){
     }
 
  const isMatch = await bcrypt.compare(password,user.password);
+ console.log("Attempted password:", password);
+console.log("Stored hash:", user.password);
+
  if(!isMatch){
     return NextResponse.json({error:"invalid password"},{status:404});
 
