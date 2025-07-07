@@ -96,6 +96,7 @@ export default function LoginPage() {
         // Store token (Note: In production, consider using httpOnly cookies)
         if (typeof window !== 'undefined') {
           localStorage.setItem("fixmate_token", data.token);
+          document.cookie = `fixmate_token=${data.token}; path=/`;
         }
         console.log("token",data.token)
         

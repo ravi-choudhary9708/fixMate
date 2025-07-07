@@ -145,6 +145,11 @@ export default function TicketDetailPage() {
           </div>
         </div>
 
+       
+
+
+
+
         {/* Ticket Information */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Reporter Information */}
@@ -267,7 +272,8 @@ export default function TicketDetailPage() {
             </div>
           )}
 
-          
+ 
+
         </div>
       </div>
     </div>
