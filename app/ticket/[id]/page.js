@@ -266,6 +266,8 @@ export default function TicketDetailPage() {
               ))}
             </div>
           )}
+
+          
         </div>
       </div>
     </div>
