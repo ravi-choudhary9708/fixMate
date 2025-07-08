@@ -14,7 +14,8 @@ export async function GET(req){
   }
 
   
-  const staff = await User.find({ role: "staff" }, "name email").lean();
+  const staff = await User.find({ role: "staff" }, "name email phoneNo").lean();
+  console.log("staff:",staff)
   return NextResponse.json(staff);
 
 }

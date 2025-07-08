@@ -16,7 +16,7 @@ export async function GET(req){
   }
 
 
-   const tickets= await Ticket.find().sort({createdAt: -1}).populate("assignedTo","name email").lean();
+   const tickets= await Ticket.find().sort({createdAt: -1}).populate("assignedTo","name email phoneNo").lean();
 
     return NextResponse.json(tickets)
 }

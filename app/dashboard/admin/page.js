@@ -73,6 +73,7 @@ export default function AdminDashboard() {
       if (res.ok) {
         setSuccess("Ticket assigned successfully!");
         setTimeout(() => setSuccess(""), 3000);
+        
       }
     } catch (error) {
       console.error("Error assigning ticket:", error);
@@ -135,6 +136,17 @@ export default function AdminDashboard() {
     const handleClick=()=>{
  router.push("/")
   }
+
+
+  const generateWhatsAppLink = (phone, message) => {
+  return `https://wa.me/91${phone}?text=${encodeURIComponent(message)}`;
+};
+
+console.log("✅ WhatsApp link:", generateWhatsAppLink);
+
+
+
+console.log("tickets:",tickets);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50">
@@ -336,7 +348,7 @@ export default function AdminDashboard() {
                         </div>
                       </div>
 
-                    <div className="flex items-center space-x-3">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3 gap-2 sm:gap-0">
   <label className="font-medium">Assign:</label>
 
   <select
@@ -369,7 +381,23 @@ export default function AdminDashboard() {
       </option>
     ))}
   </select>
+
+  {/* ✅ WhatsApp Notify Link - only show if assigned and phone exists */}
+  {ticket.assignedTo?.phoneNo && (
+    <a
+      href={generateWhatsAppLink(
+        ticket.assignedTo.phoneNo,
+        `Hi ${ticket.assignedTo.name}, you have been assigned ticket "${ticket.title}". View it: https://fixmate.com/ticket/${ticket._id}`
+      )}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-green-600 text-sm underline ml-2"
+    >
+      📩 WhatsApp
+    </a>
+  )}
 </div>
+
 
                     </div>
                   </div>

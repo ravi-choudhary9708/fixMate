@@ -84,6 +84,7 @@ export default function RegisterPage() {
     name: "",
     email: "",
     password: "",
+    phoneNo:"",
     role: "user",
   });
   const [error, setError] = useState("");
@@ -105,7 +106,7 @@ export default function RegisterPage() {
   };
 
   const resetForm = () => {
-    setForm({ name: "", email: "", password: "", role: "user" });
+    setForm({ name: "",phoneNo:"", email: "", password: "", role: "user" });
     setError("");
     setSuccess(false);
   };
@@ -197,6 +198,15 @@ export default function RegisterPage() {
               name="name"
               placeholder="Full Name"
               value={form.name}
+              onChange={handleChange}
+              required
+            />
+            <InputField
+              icon={User}
+              type="number"
+              name="phoneNo"
+              placeholder="Phone number"
+              value={form.phoneNo}
               onChange={handleChange}
               required
             />

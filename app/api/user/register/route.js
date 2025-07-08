@@ -14,7 +14,7 @@ import bcrypt from "bcryptjs";
 
 
 export async function POST(req){
-    const {name,email,password,role}= await req.json();
+    const {name,email,password,role,phoneNo}= await req.json();
    await dbConnect();
     const existingUser= await User.findOne({email});
 
@@ -32,6 +32,7 @@ const hashedPassword = await bcrypt.hash(password, salt);
 
 const newUser= await User.create({
     name,
+    phoneNo,
     email,
     password:hashedPassword,
     role:roleToUse,
