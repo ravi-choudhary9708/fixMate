@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { Eye, EyeOff, User, Mail, Lock, Shield, CheckCircle, X } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const Toast = ({ message, type, onClose }) => {
   useEffect(() => {
@@ -78,6 +79,7 @@ const LoadingSpinner = () => (
 );
 
 export default function RegisterPage() {
+    const router= useRouter();
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -159,6 +161,10 @@ export default function RegisterPage() {
   ];
 
   const RoleIcon = getRoleIcon(form.role);
+
+    const handleClick=()=>{
+ router.push("/login")
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50 flex items-center justify-center p-4">
@@ -254,8 +260,9 @@ export default function RegisterPage() {
             <p className="text-gray-600">
               Already have an account?{' '}
               <button 
+              onClick={handleClick}
                 type="button"
-                className="text-indigo-600 hover:text-indigo-700 font-semibold transition-colors"
+                className="cursor-pointer text-indigo-600 hover:text-indigo-700 font-semibold transition-colors"
               >
                 Sign In
               </button>

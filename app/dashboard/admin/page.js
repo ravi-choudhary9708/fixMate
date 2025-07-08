@@ -14,14 +14,17 @@ import {
   TrendingUp
 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function AdminDashboard() {
+    const router= useRouter();
   const [tickets, setTickets] = useState([]);
   const [staffList, setStaffList] = useState([]);
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState({});
   const [filterStatus, setFilterStatus] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -129,6 +132,10 @@ export default function AdminDashboard() {
 
   const stats = getTicketStats();
 
+    const handleClick=()=>{
+ router.push("/")
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50">
       {/* Header */}
@@ -145,7 +152,7 @@ export default function AdminDashboard() {
               </div>
             </div>
            
-            <button className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors">
+            <button onClick={handleClick} className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors">
               <LogOut className="w-5 h-5" />
               <span>Logout</span>
             </button>

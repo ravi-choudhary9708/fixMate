@@ -1,8 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Settings, Users, Clock, CheckCircle, PlayCircle, LogOut, AlertCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function StaffDashboard() {
+    const router= useRouter();
   const [tickets, setTickets] = useState([]);
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState({});
@@ -88,6 +90,10 @@ export default function StaffDashboard() {
 
   const counts = getTicketCounts();
 
+    const handleClick=()=>{
+ router.push("/")
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       {/* Header */}
@@ -103,7 +109,7 @@ export default function StaffDashboard() {
                 <p className="text-sm text-gray-600">Manage assigned tickets</p>
               </div>
             </div>
-            <button className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors">
+            <button onClick={handleClick} className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors">
               <LogOut className="w-5 h-5" />
               <span>Logout</span>
             </button>
