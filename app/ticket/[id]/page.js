@@ -8,11 +8,25 @@ import { Clock, User, Mail, AlertCircle, CheckCircle, XCircle, Calendar, Tag, Fl
 export default function TicketDetailPage() {
   const [ticket, setTicket] = useState(null);
   const [traces, setTraces] = useState([]);
+  const [messages, setMessages] = useState([]);
+
   // For demo purposes, we'll use a mock ID - in real app, you'd get this from your router
-    const { id } = useParams();
+  const { id } = useParams();
+
+  const fetchMessages = async () => {
+    const res = await fetch(`/api/ticket/${id}/message`);
+    const data = await res.json();
+    setMessages(data);
+  };
 
   useEffect(() => {
-   if(!id) return;
+    if (id) fetchMessages();
+  }, [id]);
+
+
+
+  useEffect(() => {
+    if (!id) return;
     const token = localStorage.getItem("fixmate_token");
     const fetchData = async () => {
       try {
@@ -21,9 +35,9 @@ export default function TicketDetailPage() {
           fetch(`/api/ticket/${id}/tracelog`, { headers: { Authorization: `Bearer ${token}` } }),
         ]);
         const ticketData = await ticketRes.json();
-        console.log(ticketData,"bro ticket data")
+        console.log(ticketData, "bro ticket data")
         const traceData = await traceRes.json();
-         console.log(traceData,"bro trace data")
+        console.log(traceData, "bro trace data")
         setTicket(ticketData);
         setTraces(traceData);
       } catch (error) {
@@ -35,7 +49,7 @@ export default function TicketDetailPage() {
   }, [id]);
 
   const getStatusColor = (status) => {
-     if (!status) return <AlertCircle className="w-4 h-4" />;
+    if (!status) return <AlertCircle className="w-4 h-4" />;
     switch (status.toLowerCase()) {
       case 'open': return 'bg-blue-100 text-blue-800 border-blue-200';
       case 'in progress': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
@@ -46,7 +60,7 @@ export default function TicketDetailPage() {
   };
 
   const getPriorityColor = (priority) => {
-      if (!priority) return <AlertCircle className="w-4 h-4" />;
+    if (!priority) return <AlertCircle className="w-4 h-4" />;
     switch (priority.toLowerCase()) {
       case 'low': return 'bg-green-100 text-green-800 border-green-200';
       case 'medium': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
@@ -57,7 +71,7 @@ export default function TicketDetailPage() {
   };
 
   const getStatusIcon = (status) => {
-     if (!status) return <AlertCircle className="w-4 h-4" />;
+    if (!status) return <AlertCircle className="w-4 h-4" />;
     switch (status.toLowerCase()) {
       case 'open': return <AlertCircle className="w-4 h-4" />;
       case 'in progress': return <Clock className="w-4 h-4" />;
@@ -110,29 +124,31 @@ export default function TicketDetailPage() {
               Ticket #{ticket.id || id}
             </div>
           </div>
-          
+         
           <div className="space-y-4">
             <h1 className="text-3xl font-bold text-gray-900 leading-tight">
               {ticket.title}
             </h1>
-            
+
             <div className="flex flex-wrap gap-3">
               <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium border ${getStatusColor(ticket.status)}`}>
                 {getStatusIcon(ticket.status)}
                 {ticket.status}
               </span>
-              
+
               <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium border ${getPriorityColor(ticket.priority)}`}>
                 <Flag className="w-4 h-4" />
                 {ticket.priority} Priority
               </span>
-              
+
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-slate-100 text-slate-800 border border-slate-200">
                 <Tag className="w-4 h-4" />
                 {ticket.category}
               </span>
             </div>
           </div>
+
+
         </div>
 
         {/* Ticket Details */}
@@ -145,7 +161,7 @@ export default function TicketDetailPage() {
           </div>
         </div>
 
-       
+
 
 
 
@@ -215,7 +231,7 @@ export default function TicketDetailPage() {
             <Calendar className="w-5 h-5 text-purple-600" />
             Activity Timeline
           </h3>
-          
+
           {traces.length === 0 ? (
             <div className="text-center py-12">
               <Clock className="w-12 h-12 text-gray-400 mx-auto mb-4" />
@@ -229,12 +245,12 @@ export default function TicketDetailPage() {
                   {index !== traces.length - 1 && (
                     <div className="absolute left-6 top-12 w-0.5 h-full bg-gray-200"></div>
                   )}
-                  
+
                   <div className="flex gap-4 items-start">
                     <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center text-white font-semibold flex-shrink-0">
                       <Clock className="w-5 h-5" />
                     </div>
-                    
+
                     <div className="flex-1 min-w-0">
                       <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
                         <div className="flex items-start justify-between mb-2">
@@ -243,20 +259,20 @@ export default function TicketDetailPage() {
                             {trace.byRole}
                           </span>
                         </div>
-                        
+
                         <div className="text-sm text-gray-600 space-y-1">
                           <p className="flex items-center gap-2">
                             <Calendar className="w-4 h-4" />
                             {new Date(trace.timestamp).toLocaleString()}
                           </p>
-                          
+
                           <div className="flex items-start gap-2 text-xs">
                             <div className="flex items-center gap-1">
                               <span className="font-medium">IP:</span>
                               <span className="bg-white px-2 py-0.5 rounded border">{trace.ip}</span>
                             </div>
                           </div>
-                          
+
                           <div className="text-xs">
                             <span className="font-medium">Device:</span>
                             <span className="ml-1 text-gray-500">
@@ -272,10 +288,15 @@ export default function TicketDetailPage() {
             </div>
           )}
 
- 
+
+          
+
+
 
         </div>
       </div>
+  
+
     </div>
   );
 }

@@ -1,7 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Plus, Ticket, User, LogOut } from "lucide-react";
+import { Plus, Ticket, User, LogOut,MessageCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
+import ChatBox from "@/app/components/chatBox";
 
 export default function UserDashboard() {
   const router= useRouter();
@@ -14,6 +15,7 @@ export default function UserDashboard() {
   });
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
+   const [activeChatTicketId, setActiveChatTicketId] = useState(null);
 
   // Fetch my tickets
   useEffect(() => {
@@ -282,6 +284,13 @@ export default function UserDashboard() {
                           <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(ticket.status)}`}>
                             {ticket.status}
                           </span>
+                          <button
+                                            onClick={() => setActiveChatTicketId(ticket._id)}
+                                            className="text-indigo-600 hover:underline text-sm flex items-center gap-1"
+                                          >
+                                            <MessageCircle className="w-4 h-4" />
+                                            Chat
+                                          </button>
                         </div>
                       </div>
 
@@ -303,6 +312,9 @@ export default function UserDashboard() {
           </div>
         </div>
       </div>
+      {activeChatTicketId && (
+        <ChatBox ticketId={activeChatTicketId} onClose={() => setActiveChatTicketId(null)} />
+      )}
     </div>
   );
 }
