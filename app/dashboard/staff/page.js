@@ -2,12 +2,15 @@
 import { useEffect, useState } from "react";
 import { Settings, Users, Clock, CheckCircle, PlayCircle, LogOut, AlertCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
+import ChatBox from "@/app/components/chatBox";
+import { MessageCircle } from "lucide-react"; // icon
 
 export default function StaffDashboard() {
     const router= useRouter();
   const [tickets, setTickets] = useState([]);
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState({});
+   const [activeChatTicketId, setActiveChatTicketId] = useState(null);
 
   useEffect(() => {
     const fetchTickets = async () => {
@@ -222,6 +225,13 @@ export default function StaffDashboard() {
                           {getStatusIcon(ticket.status)}
                           <span>{ticket.status}</span>
                         </span>
+                        <button
+                  onClick={() => setActiveChatTicketId(ticket._id)}
+                  className="text-indigo-600 hover:underline text-sm flex items-center gap-1"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  Chat
+                </button>
                       </div>
 
                       {ticket.status !== "Resolved" && (
@@ -256,6 +266,9 @@ export default function StaffDashboard() {
           </div>
         </div>
       </div>
+       {activeChatTicketId && (
+        <ChatBox  ticketId={activeChatTicketId} onClose={() => setActiveChatTicketId(null)} />
+      )}
     </div>
   );
 }

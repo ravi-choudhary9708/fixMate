@@ -5,7 +5,7 @@ import { verifyJWT } from "@/utils/jwt";
 
 export async function POST(req, { params }) {
  await dbConnect()
-  const id = params.id;
+  const id = await params.id;
   console.log("params id:",id)
   const body = await req.json();
 
